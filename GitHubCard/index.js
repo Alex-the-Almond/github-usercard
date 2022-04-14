@@ -58,3 +58,78 @@ const followersArray = [];
     luishrd
     bigknell
 */
+import axios from 'axios'
+
+const entryPoint = document.querySelector('.cards');
+
+  function gitCards(user) {
+    axios.get(`https://api.github.com/users/${user}`)
+    .then(res => {
+      const user1 = gitCards(res.data)
+      entryPoint.appendChild(user1)
+    })
+    .catch(err => {
+      console.error(err);
+    })
+  };
+   gitCards()
+
+   const gitUserArr = [
+     'Alex-the-Almond',
+     'tetodan',
+     'dustinmyers',
+     'justsml',
+     'luishrd',
+     'bigknell',
+     'crharding'
+   ];
+
+   function gitCardMaker (obj) {
+     const [avatar_url, name, html_url, location, followers, following, bio,  login] = obj
+
+     const card = document.createElement('div');
+     const imageURL = document.createElement('img');
+     const cardInfo = document.createElement('div');
+     const cardName = document.createElement('h3');
+     const cardUsername = document.createElement('p');
+     const cardLocation = document.createElement('p');
+     const cardProfile = document.createElement('p');
+     const cardProfileLink = document.createElement('a');
+     const cardFollowers = document.createElement('p');
+     const cardFollowing = document.createElement('p');
+     const cardBio = document.createElement('p');
+   
+    card.classList.add('card');
+    cardInfo.classList.add('card-info')
+    cardName.classList.add('name');
+    cardUsername.classList.add('username');
+
+    card.appendChild(imageURL);
+    card.appendChild(cardInfo);
+    cardInfo.appendChild(cardName);
+    cardInfo.appendChild(cardUsername);
+    cardInfo.appendChild(cardLocation);
+    cardInfo.appendChild(cardProfile);
+    cardInfo.appendChild(cardFollowers);
+    cardInfo.appendChild(cardFollowing);
+    cardInfo.appendChild(cardBio);
+
+    imageURL.src = avatar_url;
+    cardName.textContent = name;
+    cardUsername.textContent = login;
+    cardLocation.textContent = `Location: ${location}`
+    cardProfile.textContent = 'Profile: ';
+    cardProfileLink.setAttribute('href', html_url);
+    cardProfileLink.textContent = `${html_url}`;
+    cardFollowers.textContent = `Followers: ${followers}`;
+    cardFollowing.textContent = `Following: ${following}`;
+    cardBio.textContent = `Bio: ${bio}`;
+
+    cardProfile.appendChild(cardProfileLink);
+
+    return card;
+    }
+
+    followersArray.forEach((item) => {
+      return gitCardMaker(item);
+    })
